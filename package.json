@@ -1,0 +1,34 @@
+{
+  "name": "qq-cli-local",
+  "version": "0.3.0",
+  "description": "Local Classic PCQQ history, search and export CLI",
+  "license": "UNLICENSED",
+  "type": "commonjs",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Chihiro521/qq-cli-local.git"
+  },
+  "homepage": "https://github.com/Chihiro521/qq-cli-local#readme",
+  "bugs": {
+    "url": "https://github.com/Chihiro521/qq-cli-local/issues"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "bin": {
+    "qq-cli": "bin/qq-cli.js"
+  },
+  "files": [
+    "bin",
+    "src/*.js",
+    "src/*.py",
+    "README.md",
+    "DESIGN.md"
+  ],
+  "scripts": {
+    "test": "node --disable-warning=ExperimentalWarning --test"
+  },
+  "engines": {
+    "node": ">=22.5.0"
+  }
+}
