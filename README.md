@@ -114,7 +114,20 @@ npm version patch
 git push origin main --follow-tags
 ```
 
-首次发布前，需要先在 npm 创建 `qq-cli-local` 包，并在包设置中添加 GitHub Actions Trusted Publisher：仓库为 `Chihiro521/qq-cli-local`，工作流文件为 `publish.yml`。完成后后续发版无需 npm 长期令牌。
+首次启用需要 npm 账号已开启双重认证，并完成一次本地发布以创建包：
+
+```powershell
+npm login --auth-type=web
+npm publish --access public
+```
+
+包创建后，使用 npm `>=11.15.0` 添加 GitHub Actions Trusted Publisher。下面的命令临时使用新版 npm，不更改本机全局 npm 版本；按提示在浏览器完成身份验证：
+
+```powershell
+npm exec --yes --package 'npm@^11.15.0' -- npm trust github qq-cli-local --repo Chihiro521/qq-cli-local --file publish.yml --allow-publish --yes
+```
+
+也可以在 npm 包设置的 Trusted Publisher 中填写 GitHub 用户 `Chihiro521`、仓库 `qq-cli-local`、工作流文件 `publish.yml`，并启用 **Allow npm publish**。完成后，推送与包版本一致的 `v` 标签即可自动发布，后续发版使用 OIDC 身份验证。
 
 ## 开发
 
