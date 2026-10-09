@@ -1,0 +1,4 @@
+Fusion Pixel Font, 10px monospaced, Simplified Chinese variant
+Source: https://github.com/TakWolf/fusion-pixel-font
+Release: 2026.09.25
+Licensed under the SIL Open Font License 1.1. See OFL.txt and LICENSES/ for the font and its source components.
