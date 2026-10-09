@@ -1,6 +1,6 @@
 {
   "name": "qq-cli-local",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "description": "Local Classic PCQQ history, search and export CLI",
   "license": "UNLICENSED",
   "type": "commonjs",

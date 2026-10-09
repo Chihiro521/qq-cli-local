@@ -24,7 +24,7 @@ const { advanceState, compareSessions, loadState, saveState } = require("./state
 const { installDatabase } = require("./storage");
 const { buildTimeRange } = require("./time");
 
-const VERSION = "0.3.0";
+const VERSION = require("../package.json").version;
 
 const HELP = `qq-cli ${VERSION}
 
