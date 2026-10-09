@@ -2,6 +2,8 @@
 
 `qq-cli` 是一个面向 Windows 的 Classic PCQQ 本地消息命令行工具。它可以读取本地 QQ 消息数据库，查询会话和消息、搜索内容、查看统计，并导出聊天记录。
 
+[安装介绍页](https://chihiro521.github.io/qq-cli-local/) · [npm 包](https://www.npmjs.com/package/qq-cli-local) · [GitHub Releases](https://github.com/Chihiro521/qq-cli-local/releases)
+
 ## 功能
 
 - 列出群聊、私聊和系统会话，按会话查看历史消息。
@@ -24,6 +26,13 @@
 
 ## 安装
 
+### 从 npm 安装（推荐）
+
+```powershell
+npm install --global qq-cli-local
+qq-cli --help
+```
+
 ### 从 Git 仓库安装
 
 ```powershell
@@ -32,13 +41,7 @@ Set-Location qq-cli-local
 npm install --global .
 ```
 
-### 从 npm 安装
-
-```powershell
-npm install --global qq-cli-local
-```
-
-也可以在项目目录运行 `npm install --global .` 从本地源码安装，或先运行 `npm pack` 生成 `.tgz` 包。
+也可以在项目目录运行 `npm install --global .` 从本地源码安装，或从 GitHub Releases 下载 `.tgz` 包并运行 `npm install --global .\qq-cli-local-版本号.tgz`。
 
 安装后运行 `qq-cli --help` 查看命令。
 
@@ -107,7 +110,7 @@ qq-cli clean [--all]
 
 ## 发布
 
-CI 会在推送到 `main` 时运行测试。将 `package.json` 版本号更新并推送对应的 `v` 标签后，GitHub Actions 会运行测试并发布到 npm：
+CI 会在推送到 `main` 时运行测试。将 `package.json` 版本号更新并推送对应的 `v` 标签后，GitHub Actions 会运行测试、通过 OIDC 发布到 npm，并创建附带 `.tgz` 包的 GitHub Release。安装介绍页随 `docs/` 的更新自动部署到 GitHub Pages。
 
 ```powershell
 npm version patch

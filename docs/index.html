@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="qq-cli：Windows 上的 Classic PCQQ 本地消息查询工具。安装、搜索聊天记录，并导出 Markdown、JSONL 或 ChatLab 格式。">
+  <meta name="theme-color" content="#101815">
+  <title>qq-cli — 安装与使用</title>
+  <style>
+    :root{color-scheme:dark;--bg:#101815;--panel:#18231e;--ink:#e8eee9;--muted:#a1b3a8;--line:#304139;--accent:#9cf0ba;--mono:"Cascadia Code",Consolas,monospace}
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth;scroll-padding-top:40px}
+    body{margin:0;background:var(--bg);color:var(--ink);font-family:"Segoe UI","Microsoft YaHei",sans-serif;line-height:1.75}
+    a{color:inherit;text-decoration:none}
+    a:hover{color:var(--accent)}
+    button,a:focus-visible,summary:focus-visible{outline-offset:5px}
+    .wrap{max-width:1160px;margin:0 auto;padding:0 40px}
+    header{border-bottom:1px solid var(--line)}
+    .nav{min-height:92px;display:flex;align-items:center;justify-content:space-between;gap:24px}
+    .brand{font-family:var(--mono);font-size:24px;font-weight:700;letter-spacing:-1px}
+    .brand span{color:var(--accent)}
+    .nav-links{display:flex;align-items:center;gap:30px;font-size:14px;color:var(--muted)}
+    .nav-links .source{border:1px solid var(--line);padding:9px 16px;border-radius:6px;color:var(--ink)}
+    .hero{display:grid;grid-template-columns:1.15fr 1fr;align-items:center;gap:64px;padding:90px 0 80px}
+    .eyebrow{font-family:var(--mono);color:var(--accent);font-size:12px;letter-spacing:1.5px;text-transform:uppercase;margin:0 0 24px}
+    h1{font-size:clamp(36px,4.2vw,54px);line-height:1.24;letter-spacing:-2px;font-weight:600;margin:0 0 25px}
+    h1 .soft{color:var(--accent)}
+    .intro{max-width:490px;font-size:16px;color:var(--muted);margin:0 0 32px}
+    .actions{display:flex;gap:22px;align-items:center;flex-wrap:wrap}
+    .primary{background:var(--accent);color:var(--bg);font-weight:700;padding:12px 21px;border-radius:6px;font-size:14px}
+    .primary:hover{background:#b7f6cd;color:var(--bg)}
+    .text-link{font-size:14px;border-bottom:1px solid var(--line)}
+    .terminal{border:1px solid var(--line);background:#0b120e;border-radius:10px;overflow:hidden;box-shadow:0 16px 60px #0003;min-width:0}
+    .terminal-top{display:flex;align-items:center;justify-content:space-between;padding:14px 20px;border-bottom:1px solid var(--line);color:var(--muted);font:12px var(--mono)}
+    .dots{display:flex;gap:6px}
+    .dots i{display:block;height:7px;width:7px;border-radius:100%;background:#4d6255}
+    .terminal-body{padding:28px 24px;font:13px/2 var(--mono);overflow:auto}
+    .terminal-body p{margin:0 0 15px;white-space:nowrap}
+    .prompt{color:var(--accent);margin-right:9px}
+    .comment{color:#7a9786;font-size:12px}
+    .terminal-foot{padding:12px 20px;font-size:12px;color:var(--muted);border-top:1px solid var(--line)}
+    .capabilities{display:grid;grid-template-columns:repeat(3,1fr);gap:32px;padding:0 0 70px}
+    .capability{border-top:1px solid var(--line);padding-top:23px}
+    .number{font:12px var(--mono);color:var(--accent)}
+    h3{font-weight:600;font-size:18px;line-height:1.45;margin:13px 0 10px}
+    .capability p{margin:0;color:var(--muted);font-size:14px}
+    section{padding:64px 0;border-top:1px solid var(--line)}
+    .section-title{display:flex;align-items:baseline;gap:18px;margin-bottom:34px}
+    h2{font-size:30px;font-weight:500;letter-spacing:-.5px;margin:0}
+    .section-title span{color:var(--muted);font:12px var(--mono)}
+    .steps{display:grid;grid-template-columns:180px minmax(0,1fr);gap:36px;padding:28px 0;border-top:1px solid var(--line)}
+    .steps:first-of-type{border-top:0;padding-top:0}
+    .step-label{font-size:15px;color:var(--ink)}
+    .step-label b{display:block;font:12px var(--mono);color:var(--accent);margin-bottom:10px}
+    .step-content{min-width:0}
+    .step-content p{margin:0 0 18px;color:var(--muted);font-size:14px}
+    .step-content a,.detail-text a{color:var(--accent);text-decoration:underline;text-underline-offset:4px}
+    .pills{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px}
+    .pill{font:12px var(--mono);color:var(--accent);border:1px solid var(--line);padding:5px 10px;border-radius:4px}
+    .code{position:relative;border:1px solid var(--line);border-radius:6px;background:#0b120e;margin:0}
+    pre{margin:0;padding:20px 85px 20px 20px;overflow:auto;font:13px/1.9 var(--mono);color:#d6e9dc}
+    .copy{position:absolute;right:10px;top:10px;border:1px solid var(--line);border-radius:4px;background:var(--panel);color:var(--muted);font-size:12px;cursor:pointer;padding:5px 10px}
+    .copy:hover{color:var(--accent);border-color:var(--accent)}
+    .fine{font-size:12px!important;margin:12px 0 0!important}
+    details{border:1px solid var(--line);border-radius:6px;padding:18px 20px;margin-top:12px;background:var(--panel)}
+    summary{cursor:pointer;color:var(--ink);font-size:14px;font-weight:600}
+    .detail-text{padding-top:14px}
+    .detail-text p{font-size:14px;color:var(--muted);margin:0 0 15px}
+    .usage-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:28px}
+    .usage-card h3{font-size:15px;margin:0 0 12px}
+    .usage-card pre{font-size:12px;padding:20px;min-height:88px}
+    .usage-card .code{overflow:hidden}
+    .info-grid{display:grid;grid-template-columns:1fr 1fr;gap:50px}
+    .info-grid p{font-size:14px;color:var(--muted);margin:0 0 12px}
+    code{font-family:var(--mono);font-size:.9em}
+    pre code{font-size:inherit}
+    footer{border-top:1px solid var(--line);padding:28px 0 40px}
+    .footer-row{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;font-size:12px;color:var(--muted)}
+    .footer-links{display:flex;gap:22px}
+    #copy-status{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);background:var(--accent);color:var(--bg);border-radius:6px;padding:10px 20px;font-size:13px;box-shadow:0 4px 30px #0004;display:none;z-index:10;max-width:90vw}
+    @media(max-width:900px){.hero{gap:30px;padding:60px 0}.wrap{padding:0 28px}.nav-links{gap:18px}.terminal-body{padding:24px 18px}h1{font-size:40px}}
+    @media(max-width:650px){.wrap{padding:0 22px}.nav{min-height:76px}.nav-links{gap:15px;font-size:12px}.nav-links .source{padding:7px 10px}.hero{grid-template-columns:1fr;padding:50px 0 44px;gap:35px}h1{font-size:40px;letter-spacing:-1.5px}.intro{font-size:15px}.capabilities{grid-template-columns:1fr;gap:22px;padding-bottom:45px}.capability{padding-top:18px}.capability h3{margin-top:10px}section{padding:42px 0}.section-title{gap:14px;margin-bottom:24px}h2{font-size:26px}.steps{grid-template-columns:1fr;gap:16px;padding:24px 0}.step-label b{display:inline;margin-right:14px}.usage-grid,.info-grid{grid-template-columns:1fr;gap:25px}pre{font-size:12px;padding-left:16px}.footer-row{gap:15px}.terminal-body p{font-size:12px}.eyebrow{letter-spacing:1px;font-size:11px}}
+    @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+  </style>
+</head>
+<body>
+  <header>
+    <nav class="wrap nav" aria-label="主导航">
+      <a class="brand" href="./" aria-label="qq-cli 首页"><span>&gt;_</span> qq-cli</a>
+      <div class="nav-links">
+        <a href="#install">安装</a><a href="#usage">使用</a>
+        <a class="source" href="https://github.com/Chihiro521/qq-cli-local">GitHub ↗</a>
+      </div>
+    </nav>
+  </header>
+  <main class="wrap">
+    <div class="hero">
+      <div>
+        <p class="eyebrow">Windows · Classic PCQQ · 本地处理</p>
+        <h1>让本地 QQ 消息<br><span class="soft">随时可查。</span></h1>
+        <p class="intro">用一条命令查会话、搜索聊天内容，再将记录导出为 Markdown、JSONL 或 ChatLab 格式。数据从你的本地消息库读取。</p>
+        <div class="actions">
+          <a class="primary" href="#install">开始安装 ↓</a>
+          <a class="text-link" href="https://www.npmjs.com/package/qq-cli-local">查看 npm 包 ↗</a>
+        </div>
+      </div>
+      <div class="terminal" aria-label="安装和使用命令示例">
+        <div class="terminal-top"><span class="dots" aria-hidden="true"><i></i><i></i><i></i></span><span>PowerShell</span></div>
+        <div class="terminal-body">
+          <p class="comment"># 安装</p>
+          <p><span class="prompt">&gt;</span>npm install --global qq-cli-local</p>
+          <p class="comment"># 查看命令</p>
+          <p><span class="prompt">&gt;</span>qq-cli --help</p>
+          <p class="comment"># 查找最近 7 天的消息</p>
+          <p><span class="prompt">&gt;</span>qq-cli search "关键词" --days 7</p>
+        </div>
+        <div class="terminal-foot">npm 包名：qq-cli-local &nbsp; / &nbsp; 命令名：qq-cli</div>
+      </div>
+    </div>
+    <div class="capabilities" aria-label="主要功能">
+      <div class="capability"><span class="number">01 / QUERY</span><h3>找得到，查得细</h3><p>按会话、关键词、时间、发言者和消息类型筛选，查看历史记录与会话统计。</p></div>
+      <div class="capability"><span class="number">02 / EXPORT</span><h3>把记录带出来</h3><p>导出 Markdown、纯文本、JSONL 和 ChatLab 格式，接入自己的整理流程。</p></div>
+      <div class="capability"><span class="number">03 / ORGANIZE</span><h3>为后续整理做准备</h3><p>查询收藏、记录消息检查点。summarize 生成分块素材与引用，供你后续处理。</p></div>
+    </div>
+    <section id="install" aria-labelledby="install-title">
+      <div class="section-title"><h2 id="install-title">三步开始</h2><span>INSTALLATION</span></div>
+      <div class="steps">
+        <div class="step-label"><b>01</b>准备运行环境</div>
+        <div class="step-content">
+          <div class="pills"><span class="pill">Windows x64</span><span class="pill">Node.js ≥ 22.5</span></div>
+          <p>先安装符合版本要求的 <a href="https://nodejs.org/en/download">Node.js</a>，然后打开 PowerShell。可用 <code>node --version</code> 查看版本。</p>
+          <details>
+            <summary>使用 Classic PCQQ 加密数据库？展开查看额外依赖</summary>
+            <div class="detail-text">
+              <p>需要 Classic PCQQ <strong>9.7.25.29417 x86</strong> 正在运行并登录目标账号，以及 Python ≥ 3.10、frida 和 psutil。当前加密库适配范围锁定到这一版本。</p>
+              <div class="code"><pre><code>python -m pip install frida psutil</code></pre><button class="copy" type="button" aria-label="复制 Python 依赖安装命令">复制</button></div>
+              <p class="fine">标准明文 SQLite 数据库可直接读取，仅需 Node.js。</p>
+            </div>
+          </details>
+        </div>
+      </div>
+      <div class="steps">
+        <div class="step-label"><b>02</b>全局安装 CLI</div>
+        <div class="step-content">
+          <p>在 PowerShell 运行。安装完成后，可在任意目录使用 <code>qq-cli</code>。</p>
+          <div class="code"><pre><code>npm install --global qq-cli-local
+qq-cli --help</code></pre><button class="copy" type="button" aria-label="复制 npm 安装命令">复制</button></div>
+          <p class="fine">也可从 <a href="https://github.com/Chihiro521/qq-cli-local/releases">GitHub Releases</a> 下载 .tgz 包，运行 <code>npm install --global .\下载的包.tgz</code> 安装。</p>
+        </div>
+      </div>
+      <div class="steps">
+        <div class="step-label"><b>03</b>连接本地消息库</div>
+        <div class="step-content">
+          <p>将示例路径和数字替换为你自己的 <code>Msg3.0.db</code> 路径与 QQ 账号 UIN，再导入数据库。</p>
+          <div class="code"><pre><code>qq-cli init --db "D:\QQ-data\123456789\Msg3.0.db" --account-uin 123456789
+qq-cli refresh
+qq-cli status --format text</code></pre><button class="copy" type="button" aria-label="复制首次配置命令">复制</button></div>
+          <p class="fine">配置、查询缓存和检查点保存在 <code>%LOCALAPPDATA%\qq-cli</code>。之后运行 <code>qq-cli refresh</code> 更新查询缓存。</p>
+        </div>
+      </div>
+    </section>
+    <section id="usage" aria-labelledby="usage-title">
+      <div class="section-title"><h2 id="usage-title">常用命令</h2><span>EVERYDAY COMMANDS</span></div>
+      <p style="color:var(--muted);font-size:14px;margin:-10px 0 25px">下方群号为示例，请替换为实际群号。默认输出 JSON，添加 <code>--format text</code> 可切换为文本。</p>
+      <div class="usage-grid">
+        <div class="usage-card"><h3>查看最近的会话</h3><div class="code"><pre><code>qq-cli sessions --limit 10 --format text</code></pre></div></div>
+        <div class="usage-card"><h3>查看群聊最近 7 天的消息</h3><div class="code"><pre><code>qq-cli history group:1234567890 --days 7 --limit 20 --format text</code></pre></div></div>
+        <div class="usage-card"><h3>搜索指定会话中的关键词</h3><div class="code"><pre><code>qq-cli search "关键词" --chat group:1234567890 --days 30 --format text</code></pre></div></div>
+        <div class="usage-card"><h3>导出 Markdown 聊天记录</h3><div class="code"><pre><code>qq-cli export group:1234567890 --days 7 --format markdown --output ".\chat.md"</code></pre></div></div>
+      </div>
+      <p style="margin:25px 0 0;font-size:14px"><a class="text-link" href="https://github.com/Chihiro521/qq-cli-local#常用命令">阅读完整命令与参数说明 ↗</a></p>
+    </section>
+    <section aria-labelledby="scope-title">
+      <div class="section-title"><h2 id="scope-title">使用范围</h2><span>BEFORE YOU START</span></div>
+      <div class="info-grid">
+        <div><h3>从本地记录获取信息</h3><p>contacts 和 members 展示消息库中观察到的对象与发言者。unread 和 new-messages 根据本工具保存的检查点计算变化。</p><p>summarize 生成本地消息素材和引用，供后续总结使用。</p></div>
+        <div><h3>Classic PCQQ 适配</h3><p>加密数据库支持上述指定版本的 Classic PCQQ x86；QQNT 尚未适配。</p><p>工具读取源数据库，在临时副本上处理加密库。完整实现说明见仓库 <a class="text-link" href="https://github.com/Chihiro521/qq-cli-local/blob/main/DESIGN.md">DESIGN.md</a>。</p></div>
+      </div>
+    </section>
+  </main>
+  <footer><div class="wrap footer-row"><span>qq-cli / 本地消息，按需查询。</span><div class="footer-links"><a href="https://www.npmjs.com/package/qq-cli-local">npm</a><a href="https://github.com/Chihiro521/qq-cli-local">源码</a><a href="https://github.com/Chihiro521/qq-cli-local/issues">反馈问题 ↗</a></div></div></footer>
+  <div id="copy-status" role="status" aria-live="polite"></div>
+  <script>
+    let statusTimer;
+    document.querySelectorAll(".copy").forEach(button => {
+      button.addEventListener("click", async () => {
+        const text = button.parentElement.querySelector("code").textContent;
+        const status = document.getElementById("copy-status");
+        try {
+          await navigator.clipboard.writeText(text);
+          status.textContent = "命令已复制";
+        } catch {
+          status.textContent = "请选中命令后复制";
+        }
+        status.style.display = "block";
+        clearTimeout(statusTimer);
+        statusTimer = setTimeout(() => { status.style.display = "none"; }, 2400);
+      });
+    });
+  </script>
+</body>
+</html>

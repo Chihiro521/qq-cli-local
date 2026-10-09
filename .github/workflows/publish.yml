@@ -6,7 +6,7 @@ on:
       - "v*"
 
 permissions:
-  contents: read
+  contents: write
   id-token: write
 
 jobs:
@@ -23,7 +23,7 @@ jobs:
         with:
           python-version: "3.12"
       - name: Install npm with trusted publishing support
-        run: npm install --global 'npm@^11.5.1'
+        run: npm install --global 'npm@^11.15.0'
       - name: Check release tag
         shell: pwsh
         run: |
@@ -33,4 +33,18 @@ jobs:
           }
       - run: npm ci
       - run: npm test
+      - name: Pack release archive
+        id: pack
+        shell: pwsh
+        run: |
+          $archive = npm pack --json | ConvertFrom-Json
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          "tarball=$($archive[0].filename)" | Add-Content -LiteralPath $env:GITHUB_OUTPUT
       - run: npm publish --access public
+      - name: Create GitHub Release
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PACKAGE_TARBALL: ${{ steps.pack.outputs.tarball }}
+        run: |
+          gh release create $env:GITHUB_REF_NAME $env:PACKAGE_TARBALL --verify-tag --title "qq-cli $env:GITHUB_REF_NAME" --generate-notes
